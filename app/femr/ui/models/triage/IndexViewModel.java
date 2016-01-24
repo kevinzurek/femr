@@ -38,16 +38,27 @@ public class IndexViewModel {
     private Integer heightInches;
     private Float weight;
     private Integer glucose;
+    //Encounter form data
+    private String chiefComplaint;
+        //holds multiple chief complaints if they exist.
+        // TODO: use this for single chief complaints?
+    private String chiefComplaintsJSON;
+    private Integer weeksPregnant;
 
-    //search info
-    private boolean searchError = false;
+    private String patientPhotoCropped;
+
+
+
     //flag to determine if a user would like to delete the patient's image file
     boolean deletePhoto;
+
+
+
     //system setting values
     private SettingItem settings;
     //all possible options for age classification
     private Map<String, String> possibleAgeClassifications;
-    //hidden link TODO: wtf??
+    //this gets set to true when a patient has an open encounter so that a link to medical can be displayed
     private boolean linkToMedical = false;
 
 

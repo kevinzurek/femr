@@ -1,10 +1,11 @@
-@(label: String, field1: String, forInput1: String, field2: String, forInput2: String, value: String)
+@(label: String, value: String)
+
     @inputBlock = {
         <div class="generalInfoInput">
             <label for="@label">Years</label>
             @if(value == null) {
-                <input type="text" class="age-input fInput" id="@forInput1" name="@forInput1" placeholder="@field1">
-                <input type="text" class="age-input fInput" id="@forInput2" name="@forInput2" placeholder="@field2">
+                <input type="text" class="age-input fInput" id="years" name="years" placeholder="Years">
+                <input type="text" class="age-input fInput" id="months" name="months" placeholder="Months">
             } else {
                 <input type="text" class="fInput" id="readOnlyAge" name="readOnlyAge" value="@value" readonly/>
             }

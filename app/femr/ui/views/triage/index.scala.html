@@ -28,7 +28,7 @@
 @main("Triage", currentUser, styles = additionalStyles, scripts = additionalScripts, search = search("triage")) {
 
     <div id="triageContentWrap">
-        @if(viewModel.isLinkToMedical()){
+        @if(viewModel.isLinkToMedical){
 
            <p class="newEncounterWrap"> Patient has an open encounter <a class="btn btn-danger" href="/medical/edit/@viewModel.getPatient().getId()">Go To Medical</a></p>
         }
@@ -39,9 +39,9 @@
 
                 <h2>General Info</h2>
 
-                @inputText("First Name", "firstName", true, if(viewModel != null) viewModel.getPatient.getFirstName else null, "text")
-                @inputText("Last Name", "lastName", true, if(viewModel != null) viewModel.getPatient.getLastName else null, "text")
-                @inputText("Address", "address", false, if(viewModel != null) viewModel.getPatient.getAddress else null, "text")
+                @inputText("First Name", "firstName", "patient.firstName", true, if(viewModel != null) viewModel.getPatient.getFirstName else null, "text")
+                @inputText("Last Name", "lastName", "patient.lastName", true, if(viewModel != null) viewModel.getPatient.getLastName else null, "text")
+                @inputText("Address", "address", "patient.address", false, if(viewModel != null) viewModel.getPatient.getAddress else null, "text")
                 <div class="generalInfoInput" id="citySearchContainer">
                     <label for="city">City<span class="red bold">*</span></label>
                     <input type = "text" class="citySearch fInput"  name="city" id="city" required>
@@ -50,9 +50,9 @@
 
                 <div id="ageClassificationWrap">
                     <label>Age<span class="red bold">*</span></label>
-                    @inputAge("Age", "Years", "years", "Months", "months", if(viewModel != null) viewModel.getPatient.getAge else null)
+                    @inputAge("Age", if(viewModel != null) viewModel.getPatient.getAge else null)
                     <span class="orSpan">OR</span>
-                    @inputDate("Birth Date", "age", if(viewModel != null) viewModel.getPatient.getBirth else null)
+                    @inputDate("Birth Date", if(viewModel != null) viewModel.getPatient.getBirth else null)
                     <span class="orSpan">OR</span>
                     <div class="generalInfoInput">
                         <div id="classificationRadioWrap">
