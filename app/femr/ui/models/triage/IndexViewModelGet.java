@@ -33,8 +33,6 @@ public class IndexViewModelGet {
     private PatientItem patient;
     //search info
     private boolean searchError = false;
-    //vital names
-    private List<VitalItem> vitalNames;
     //system settings
     private SettingItem settings;
     //all possible options for age classification
@@ -65,14 +63,6 @@ public class IndexViewModelGet {
 
     public void setPatient(PatientItem patient) {
         this.patient = patient;
-    }
-
-    public List<VitalItem> getVitalNames() {
-        return vitalNames;
-    }
-
-    public void setVitalNames(List<VitalItem> vitalNames) {
-        this.vitalNames = vitalNames;
     }
 
     public SettingItem getSettings() {

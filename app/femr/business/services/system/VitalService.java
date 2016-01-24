@@ -114,27 +114,6 @@ public class VitalService implements IVitalService {
      * {@inheritDoc}
      */
     @Override
-    public ServiceResponse<List<VitalItem>> retrieveAllVitalItems() {
-        ServiceResponse<List<VitalItem>> response = new ServiceResponse<>();
-
-        try {
-            List<? extends IVital> vitals = vitalRepository.findAll(Vital.class);
-            List<VitalItem> vitalItems = new ArrayList<>();
-            for (IVital v : vitals) {
-                vitalItems.add(itemModelMapper.createVitalItem(v.getName(), null));
-            }
-            response.setResponseObject(vitalItems);
-        } catch (Exception ex) {
-            response.addError("exception", ex.getMessage());
-        }
-
-        return response;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ServiceResponse<List<VitalItem>> createPatientEncounterVitalItems(Map<String, Float> patientEncounterVitalMap, int userId, int encounterId) {
         ServiceResponse<List<VitalItem>> response = new ServiceResponse<>();
         if (patientEncounterVitalMap == null) {

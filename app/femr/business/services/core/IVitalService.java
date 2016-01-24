@@ -50,14 +50,6 @@ public interface IVitalService {
     ServiceResponse<List<VitalItem>> createPatientEncounterVitals(Map<String, Float> patientEncounterVital, int userId, int encounterId);
 
     /**
-     * Gets vital items, but only the names
-     *
-     * @return a service response that contains a list of VitalItems with no values
-     * and/or errors if they exist.
-     */
-    ServiceResponse<List<VitalItem>> retrieveAllVitalItems();
-
-    /**
      * Retrieve a map of vitals where the key is the date as well as the name
      *
      * @param encounterId the id of the encounter to get vitals for, not null

@@ -55,13 +55,6 @@ public class TriageController extends Controller {
     public Result indexGet() {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
-        //retrieve all the vitals in the database so we can dynamically name
-        //the vitals in the view
-        ServiceResponse<List<VitalItem>> vitalServiceResponse = vitalService.retrieveAllVitalItems();
-        if (vitalServiceResponse.hasErrors()) {
-            throw new RuntimeException();
-        }
-
         //initalize an empty patient
         PatientItem patientItem = new PatientItem();
 
@@ -78,7 +71,6 @@ public class TriageController extends Controller {
         }
 
         IndexViewModelGet viewModelGet = new IndexViewModelGet();
-        viewModelGet.setVitalNames(vitalServiceResponse.getResponseObject());
         viewModelGet.setPatient(patientItem);
         viewModelGet.setSearchError(false);
         viewModelGet.setSettings(settingItemServiceResponse.getResponseObject());
@@ -93,12 +85,6 @@ public class TriageController extends Controller {
      */
     public Result indexPopulatedGet(int patientId) {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
-
-        //retrieve vitals names for dynamic html element naming
-        ServiceResponse<List<VitalItem>> vitalServiceResponse = vitalService.retrieveAllVitalItems();
-        if (vitalServiceResponse.hasErrors()) {
-            throw new RuntimeException();
-        }
 
         //AJ Saclayan New Encounter Warning
         ServiceResponse<PatientEncounterItem> patientEncounterItemServiceResponse = searchService.retrieveRecentPatientEncounterItemByPatientId(patientId);
@@ -131,7 +117,6 @@ public class TriageController extends Controller {
         IndexViewModelGet viewModelGet = new IndexViewModelGet();
         viewModelGet.setSettings(settingItemServiceResponse.getResponseObject());
         viewModelGet.setPatient(patient);
-        viewModelGet.setVitalNames(vitalServiceResponse.getResponseObject());
         viewModelGet.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
         //Patient has an open encounter for medical
         if(patientEncounter.getIsClosed() == false){

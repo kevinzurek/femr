@@ -127,9 +127,9 @@
                         <div class="vitalWrap">
                             <label for="temperature">Temperature</label> <!---  Alaa Serhan -->
                             @if(viewModel.getSettings.isMetric) {
-                                <input type="number" step="any" min="0" class="fInput fVital" id="@viewModel.getVitalNames.get(2).getName" name="@viewModel.getVitalNames.get(2).getName" placeholder="&#176;C"/>
+                                <input type="number" step="any" min="0" class="fInput fVital" id="temperature" name="temperature" placeholder="&#176;C"/>
                             } else {
-                                <input type="number" step="any" min="0" class="fInput fVital" id="@viewModel.getVitalNames.get(2).getName" name="@viewModel.getVitalNames.get(2).getName" placeholder="&#176;F"/>
+                                <input type="number" step="any" min="0" class="fInput fVital" id="temperature" name="temperature" placeholder="&#176;F"/>
                             }
 
                         </div>
@@ -137,18 +137,18 @@
                         <div class="vitalWrap">
                             <label for="bloodPressureSystolic">Blood Pressure</label>
                             <div class="doubleVital">
-                                <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(7).getName" placeholder="Systolic" name="@viewModel.getVitalNames.get(7).getName"/>
-                                <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(8).getName" placeholder="Diastolic" name="@viewModel.getVitalNames.get(8).getName"/>
+                                <input type="number" step="number" min="0" class="fInput" id="bloodPressureSystolic" placeholder="Systolic" name="bloodPressureSystolic"/>
+                                <input type="number" step="number" min="0" class="fInput" id="bloodPressureDiastolic" placeholder="Diastolic" name="bloodPressureDiastolic"/>
                             </div>
                         </div>
                         <div class="vitalWrap">
                             <label for="heartRate">Heart Rate</label>
-                            <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(1).getName" name="@viewModel.getVitalNames.get(1).getName" placeholder="bpm"/>
+                            <input type="number" step="number" min="0" class="fInput" id="heartRate" name="heartRate" placeholder="bpm"/>
                         </div>
 
                         <div class="vitalWrap">
                             <label for="respirations">Respirations</label>
-                            <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(0).getName" name="@viewModel.getVitalNames.get(0).getName" placeholder="bpm"/>
+                            <input type="number" step="number" min="0" class="fInput" id="respiratoryRate" name="respiratoryRate" placeholder="bpm"/>
                         </div>
 
                         <div class="vitalWrap">
@@ -178,27 +178,27 @@
                         <div class="vitalWrap">
                             <label for="oxygen">Oxygen Saturation</label>
 
-                            <input type="number" step="any" min="0" class="fInput" id="@viewModel.getVitalNames.get(3).getName" name="@viewModel.getVitalNames.get(3).getName" placeholder="%"/>
+                            <input type="number" step="any" min="0" class="fInput" id="oxygenSaturation" name="oxygenSaturation" placeholder="%"/>
                         </div>
                         <div class="vitalWrap">
 
                             <label for="heightFeet">Height</label>
                             <div class="doubleVital">
                                 @if(viewModel.getSettings.isMetric) { <!---  Alaa Serhan -->
-                                    <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(4).getName" placeholder="Meters" name="@viewModel.getVitalNames.get(4).getName"/>
-                                    <input type="number" step="number" min="0" max="99" class="fInput" id="@viewModel.getVitalNames.get(5).getName" placeholder="Centimeters" name="@viewModel.getVitalNames.get(5).getName"/>
+                                    <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Meters" name="heightFeet"/>
+                                    <input type="number" step="number" min="0" max="99" class="fInput" id="heightInches" placeholder="Centimeters" name="heightInches"/>
                                 } else {
-                                    <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(4).getName" placeholder="Feet" name="@viewModel.getVitalNames.get(4).getName"/>
-                                    <input type="number" step="number" min="0" max="11" class="fInput" id="@viewModel.getVitalNames.get(5).getName" placeholder="Inches" name="@viewModel.getVitalNames.get(5).getName"/>
+                                    <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Feet" name="heightFeet"/>
+                                    <input type="number" step="number" min="0" max="11" class="fInput" id="heightInches" placeholder="Inches" name="heightInches"/>
                                 }
                             </div>
                         </div>
                         <div class="vitalWrap">
                             <label for="weight">Weight</label>
                             @if(viewModel.getSettings.isMetric) { <!---  Alaa Serhan -->
-                                <input type="number" step="any" min="0" class="fInput" id="@viewModel.getVitalNames.get(6).getName" name="@viewModel.getVitalNames.get(6).getName" placeholder="kgs"/>
+                                <input type="number" step="any" min="0" class="fInput" id="weight" name="weight" placeholder="kgs"/>
                             } else {
-                                <input type="number" step="any" min="0" class="fInput" id="@viewModel.getVitalNames.get(6).getName" name="@viewModel.getVitalNames.get(6).getName" placeholder="lbs"/>
+                                <input type="number" step="any" min="0" class="fInput" id="weight" name="weight" placeholder="lbs"/>
                             }
 
                         </div>
@@ -210,7 +210,7 @@
                         <div class="vitalWrap">
                             <label>Glucose</label>
 
-                            <input type="number" step="number" min="0" class="fInput" id="@viewModel.getVitalNames.get(9).getName" name="@viewModel.getVitalNames.get(9).getName" placeholder="mg/dl"/>
+                            <input type="number" step="number" min="0" class="fInput" id="glucose" name="glucose" placeholder="mg/dl"/>
                         </div>
                     </div>
 
