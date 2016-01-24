@@ -4,9 +4,9 @@
             <label for="patient.age">@name</label>
 
             @if(value == null) {
-                <input type="date" class="fInput" id="age" name="patient.age" placeholder="yyyy-mm-dd">
+                <input type="date" class="fInput" id="age" name="patient.birth" placeholder="yyyy-mm-dd">
             } else {
-                <input type="date" class="fInput" id="readOnlyBirthDate" name="patient.age" value="@value.format("yyyy-MM-dd")" readonly/>
+                <input type="date" class="fInput" id="readOnlyBirthDate" name="patient.birth" value="@value.format("yyyy-MM-dd")" readonly/>
             }
         </div>
     }

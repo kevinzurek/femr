@@ -3,7 +3,6 @@ package femr.ui.controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import femr.business.helpers.LogicDoer;
 import femr.business.services.core.*;
 import femr.common.dtos.CurrentUser;
 import femr.common.dtos.ServiceResponse;
@@ -14,21 +13,18 @@ import femr.ui.helpers.security.FEMRAuthenticated;
 import femr.ui.models.triage.*;
 import femr.ui.views.html.triage.index;
 import femr.util.stringhelpers.StringUtils;
-import org.joda.time.DateTime;
 import play.data.Form;
 import play.mvc.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Security.Authenticated(FEMRAuthenticated.class)
 @AllowedRoles({Roles.PHYSICIAN, Roles.PHARMACIST, Roles.NURSE})
 public class TriageController extends Controller {
-    //AJ Saclayan Cities
-    private final Form<EditViewModelPost> createViewModelPostForm = Form.form(EditViewModelPost.class);
-    private final Form<IndexViewModelPost> IndexViewModelForm = Form.form(IndexViewModelPost.class);
+
+    private final Form<IndexViewModel> IndexViewModelForm = Form.form(IndexViewModel.class);
     private final IEncounterService encounterService;
     private final IPatientService patientService;
     private final ISessionService sessionService;
@@ -70,12 +66,12 @@ public class TriageController extends Controller {
             throw new RuntimeException();
         }
 
-        IndexViewModelGet viewModelGet = new IndexViewModelGet();
-        viewModelGet.setPatient(patientItem);
-        viewModelGet.setSettings(settingItemServiceResponse.getResponseObject());
-        viewModelGet.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
+        IndexViewModel viewModel = new IndexViewModel();
+        viewModel.setPatient(patientItem);
+        viewModel.setSettings(settingItemServiceResponse.getResponseObject());
+        viewModel.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
 
-        return ok(index.render(currentUser, viewModelGet));
+        return ok(index.render(currentUser, viewModel));
     }
 
     /*
@@ -113,19 +109,19 @@ public class TriageController extends Controller {
             throw new RuntimeException();
         }
 
-        IndexViewModelGet viewModelGet = new IndexViewModelGet();
-        viewModelGet.setSettings(settingItemServiceResponse.getResponseObject());
-        viewModelGet.setPatient(patient);
-        viewModelGet.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
+        IndexViewModel viewModel = new IndexViewModel();
+        viewModel.setSettings(settingItemServiceResponse.getResponseObject());
+        viewModel.setPatient(patient);
+        viewModel.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
         //Patient has an open encounter for medical
-        if(patientEncounter.getIsClosed() == false){
-            viewModelGet.setLinkToMedical(true);
+        if(!patientEncounter.getIsClosed()){
+            viewModel.setLinkToMedical(true);
         }
         else{
-            viewModelGet.setLinkToMedical(false);
+            viewModel.setLinkToMedical(false);
         }
 
-        return ok(index.render(currentUser, viewModelGet));
+        return ok(index.render(currentUser, viewModel));
     }
 
     /*
@@ -134,7 +130,9 @@ public class TriageController extends Controller {
     */
     public Result indexPost(int id) {
 
-        IndexViewModelPost viewModel = IndexViewModelForm.bindFromRequest().get();
+        //IndexViewModelPost viewModel = IndexViewModelForm_old.bindFromRequest().get();
+        Form<IndexViewModel> form = IndexViewModelForm.bindFromRequest();
+        IndexViewModel viewModel = form.bindFromRequest().get();
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
         //create a new patient
@@ -145,7 +143,7 @@ public class TriageController extends Controller {
             patientItem = populatePatientItem(viewModel, currentUser);
             patientServiceResponse = patientService.createPatient(patientItem);
         } else {
-            patientServiceResponse = patientService.updateSex(id, viewModel.getSex());
+            patientServiceResponse = patientService.updateSex(id, viewModel.getPatient().getSex());
         }
         if (patientServiceResponse.hasErrors()) {
             throw new RuntimeException();
@@ -153,7 +151,7 @@ public class TriageController extends Controller {
         patientItem = patientServiceResponse.getResponseObject();
 
 
-        photoService.createPatientPhoto(viewModel.getPatientPhotoCropped(), patientItem.getId(), viewModel.getDeletePhoto());
+        photoService.createPatientPhoto(viewModel.getPatientPhotoCropped(), patientItem.getId(), viewModel.isDeletePhoto());
         //V code for saving photo without javascript
         //currently javascript is required
         //Http.MultipartFormData.FilePart fpPhoto = request().body().asMultipartFormData().getFile("patientPhoto");
@@ -242,17 +240,17 @@ public class TriageController extends Controller {
         return redirect(routes.TriageController.indexGet());
     }
 
-    private PatientItem populatePatientItem(IndexViewModelPost viewModelPost, CurrentUser currentUser) {
+    private PatientItem populatePatientItem(IndexViewModel viewModelPost, CurrentUser currentUser) {
         PatientItem patient = new PatientItem();
         patient.setUserId(currentUser.getId());
-        patient.setFirstName(viewModelPost.getFirstName());
-        patient.setLastName(viewModelPost.getLastName());
-        if (viewModelPost.getAge() != null) {
-            patient.setBirth(viewModelPost.getAge());
+        patient.setFirstName(viewModelPost.getPatient().getFirstName());
+        patient.setLastName(viewModelPost.getPatient().getLastName());
+        if (viewModelPost.getPatient().getBirth() != null) {
+            patient.setBirth(viewModelPost.getPatient().getBirth());
         }
-        patient.setSex(viewModelPost.getSex());
-        patient.setAddress(viewModelPost.getAddress());
-        patient.setCity(viewModelPost.getCity());
+        patient.setSex(viewModelPost.getPatient().getSex());
+        patient.setAddress(viewModelPost.getPatient().getAddress());
+        patient.setCity(viewModelPost.getPatient().getCity());
 
         return patient;
     }

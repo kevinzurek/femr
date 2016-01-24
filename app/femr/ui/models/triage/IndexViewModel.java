@@ -49,8 +49,9 @@ public class IndexViewModel {
 
 
 
-    //flag to determine if a user would like to delete the patient's image file
-    boolean deletePhoto;
+    //flag to determine if a user would like to delete the patient's image
+    //TODO: make not public
+    public boolean deletePhoto;
 
 
 
@@ -62,5 +63,159 @@ public class IndexViewModel {
     private boolean linkToMedical = false;
 
 
+    public PatientItem getPatient() {
+        return patient;
+    }
 
+    public void setPatient(PatientItem patient) {
+        this.patient = patient;
+    }
+
+    public String getAgeClassification() {
+        return ageClassification;
+    }
+
+    public void setAgeClassification(String ageClassification) {
+        this.ageClassification = ageClassification;
+    }
+
+    public Integer getBloodPressureSystolic() {
+        return bloodPressureSystolic;
+    }
+
+    public void setBloodPressureSystolic(Integer bloodPressureSystolic) {
+        this.bloodPressureSystolic = bloodPressureSystolic;
+    }
+
+    public Integer getBloodPressureDiastolic() {
+        return bloodPressureDiastolic;
+    }
+
+    public void setBloodPressureDiastolic(Integer bloodPressureDiastolic) {
+        this.bloodPressureDiastolic = bloodPressureDiastolic;
+    }
+
+    public Integer getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(Integer heartRate) {
+        this.heartRate = heartRate;
+    }
+
+    public Float getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Float temperature) {
+        this.temperature = temperature;
+    }
+
+    public Integer getRespiratoryRate() {
+        return respiratoryRate;
+    }
+
+    public void setRespiratoryRate(Integer respiratoryRate) {
+        this.respiratoryRate = respiratoryRate;
+    }
+
+    public Float getOxygenSaturation() {
+        return oxygenSaturation;
+    }
+
+    public void setOxygenSaturation(Float oxygenSaturation) {
+        this.oxygenSaturation = oxygenSaturation;
+    }
+
+    public Integer getHeightFeet() {
+        return heightFeet;
+    }
+
+    public void setHeightFeet(Integer heightFeet) {
+        this.heightFeet = heightFeet;
+    }
+
+    public Integer getHeightInches() {
+        return heightInches;
+    }
+
+    public void setHeightInches(Integer heightInches) {
+        this.heightInches = heightInches;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Integer getGlucose() {
+        return glucose;
+    }
+
+    public void setGlucose(Integer glucose) {
+        this.glucose = glucose;
+    }
+
+    public String getChiefComplaint() {
+        return chiefComplaint;
+    }
+
+    public void setChiefComplaint(String chiefComplaint) {
+        this.chiefComplaint = chiefComplaint;
+    }
+
+    public String getChiefComplaintsJSON() {
+        return chiefComplaintsJSON;
+    }
+
+    public void setChiefComplaintsJSON(String chiefComplaintsJSON) {
+        this.chiefComplaintsJSON = chiefComplaintsJSON;
+    }
+
+    public Integer getWeeksPregnant() {
+        return weeksPregnant;
+    }
+
+    public void setWeeksPregnant(Integer weeksPregnant) {
+        this.weeksPregnant = weeksPregnant;
+    }
+
+    public String getPatientPhotoCropped() {
+        return patientPhotoCropped;
+    }
+
+    public void setPatientPhotoCropped(String patientPhotoCropped) {
+        this.patientPhotoCropped = patientPhotoCropped;
+    }
+
+    public boolean isDeletePhoto() {
+        return deletePhoto;
+    }
+
+    public SettingItem getSettings() {
+        return settings;
+    }
+
+    public void setSettings(SettingItem settings) {
+        this.settings = settings;
+    }
+
+    public Map<String, String> getPossibleAgeClassifications() {
+        return possibleAgeClassifications;
+    }
+
+    public void setPossibleAgeClassifications(Map<String, String> possibleAgeClassifications) {
+        this.possibleAgeClassifications = possibleAgeClassifications;
+    }
+
+    public boolean isLinkToMedical() {
+        return linkToMedical;
+    }
+
+    public void setLinkToMedical(boolean linkToMedical) {
+        this.linkToMedical = linkToMedical;
+    }
 }
