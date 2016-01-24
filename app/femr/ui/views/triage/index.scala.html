@@ -28,9 +28,6 @@
 @main("Triage", currentUser, styles = additionalStyles, scripts = additionalScripts, search = search("triage")) {
 
     <div id="triageContentWrap">
-        @if(viewModel.isSearchError) {
-            <p>That patient could not be found.</p>
-        }
         @if(viewModel.isLinkToMedical()){
 
            <p class="newEncounterWrap"> Patient has an open encounter <a class="btn btn-danger" href="/medical/edit/@viewModel.getPatient().getId()">Go To Medical</a></p>

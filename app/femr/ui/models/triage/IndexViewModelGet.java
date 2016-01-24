@@ -31,8 +31,6 @@ public class IndexViewModelGet {
     //patient info
     //contains photo path
     private PatientItem patient;
-    //search info
-    private boolean searchError = false;
     //system settings
     private SettingItem settings;
     //all possible options for age classification
@@ -47,14 +45,6 @@ public class IndexViewModelGet {
 
     public void setLinkToMedical(boolean linkToMedical){
         this.linkToMedical = linkToMedical;
-    }
-
-    public boolean isSearchError() {
-        return searchError;
-    }
-
-    public void setSearchError(boolean searchError) {
-        this.searchError = searchError;
     }
 
     public PatientItem getPatient() {

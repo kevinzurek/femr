@@ -72,7 +72,6 @@ public class TriageController extends Controller {
 
         IndexViewModelGet viewModelGet = new IndexViewModelGet();
         viewModelGet.setPatient(patientItem);
-        viewModelGet.setSearchError(false);
         viewModelGet.setSettings(settingItemServiceResponse.getResponseObject());
         viewModelGet.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
 
