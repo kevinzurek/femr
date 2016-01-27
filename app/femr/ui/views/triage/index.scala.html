@@ -1,4 +1,4 @@
-@(currentUser: femr.common.dtos.CurrentUser, viewModel: femr.ui.models.triage.IndexViewModel)
+@(currentUser: femr.common.dtos.CurrentUser, form: play.data.Form[femr.ui.models.triage.IndexViewModel], viewModel: femr.ui.models.triage.IndexViewModel)
 
 @import femr.common.models.CityItem
 @import femr.ui.views.html.layouts.main
@@ -7,30 +7,37 @@
 @import femr.ui.views.html.partials.triage._
 @import femr.ui.controllers.routes.SearchController
 @import femr.ui.views.html.partials.helpers.outputStringOrNA
+@import views.html.helper.FieldConstructor
+@import femr.ui.views.html.partials.triage.inputFieldConstructor
 
+@implicitField = @{
+    FieldConstructor(inputFieldConstructor.f)
+}
 
-    @additionalScripts = {
-        <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/touchit-1.0.0.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/jquery.jWindowCrop.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/triage/triage.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/shared/femr.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/exif.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/megapix-image.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/triage/triageClientValidation.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/shared/vitalClientValidation.js")"></script>
-            <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/handlebars.min.js")"></script>
-            <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/typeahead.bundle.min.js")"></script>
-    }
-    @additionalStyles = {
-        <link rel="stylesheet" href="@routes.Assets.versioned("css/triage.css")">
-        <link rel="stylesheet" href="@routes.Assets.versioned("css/libraries/datepicker.css")">
-    }
+@additionalScripts = {
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/touchit-1.0.0.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/jquery.jWindowCrop.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/triage/triage.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/shared/femr.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/exif.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/megapix-image.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/triage/triageClientValidation.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/shared/vitalClientValidation.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/handlebars.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/typeahead.bundle.min.js")"></script>
+}
+@additionalStyles = {
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/triage.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/libraries/datepicker.css")">
+}
 @main("Triage", currentUser, styles = additionalStyles, scripts = additionalScripts, search = search("triage")) {
 
     <div id="triageContentWrap">
-        @if(viewModel.isLinkToMedical){
+        @if(viewModel.isLinkToMedical) {
 
-           <p class="newEncounterWrap"> Patient has an open encounter <a class="btn btn-danger" href="/medical/edit/@viewModel.getPatient().getId()">Go To Medical</a></p>
+            <p class="newEncounterWrap">
+                Patient has an open encounter <a class="btn btn-danger" href="/medical/edit/@viewModel.getPatient().getId()">
+                Go To Medical</a></p>
         }
         <h2 class="text-center">Check In - Triage</h2>
 
@@ -39,12 +46,23 @@
 
                 <h2>General Info</h2>
 
-                @inputText("First Name", "firstName", "patient.firstName", true, if(viewModel != null) viewModel.getPatient.getFirstName else null, "text")
+                @*inputText("First Name", "firstName", "patient.firstName", true, if(viewModel != null) viewModel.getPatient.getFirstName else null, "text")*@
+
+                @helper.inputText(
+                    form("patient.firstName"),
+                    'id -> "firstName",
+                    'class -> "fInput",
+                    '_label -> "First Name",
+                    'placeholder -> "First Name",
+                    '_isRequired -> true
+                )
+
+
                 @inputText("Last Name", "lastName", "patient.lastName", true, if(viewModel != null) viewModel.getPatient.getLastName else null, "text")
                 @inputText("Address", "address", "patient.address", false, if(viewModel != null) viewModel.getPatient.getAddress else null, "text")
                 <div class="generalInfoInput" id="citySearchContainer">
                     <label for="city">City<span class="red bold">*</span></label>
-                    <input type = "text" class="citySearch fInput"  name="patient.city" id="city" required>
+                    <input type = "text" class="citySearch fInput" name="patient.city" id="city" required>
                 </div>
 
 
@@ -113,7 +131,7 @@
                 <div id="vitalContainer">
 
                     <div id="leftVitalsWrap">
-                        <!-- Alaa Serhan - Referenced in triage.js for calculating proper BMI
+                            <!-- Alaa Serhan - Referenced in triage.js for calculating proper BMI
                             as well as in vitalClientValidation.js for validating height inputs -->
                         @if(viewModel.getSettings.isMetric) {
                             <input type="hidden" id="vitalsUnits" value="metric" />
@@ -165,7 +183,8 @@
 
 
                     <div id="rightVitalsWrap">
-                        @if(viewModel.getSettings.isMetric) { <!-- Alaa Serhan -->
+                        @if(viewModel.getSettings.isMetric) {
+                                <!-- Alaa Serhan -->
                             <input type="hidden" id="vitalsUnits" value="metric" />
                         } else {
                             <input type="hidden" id="vitalUnits" value="imp" />
@@ -181,18 +200,20 @@
 
                             <label for="heightFeet">Height</label>
                             <div class="doubleVital">
-                                @if(viewModel.getSettings.isMetric) { <!---  Alaa Serhan -->
-                                    <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Meters" name="heightFeet"/>
-                                    <input type="number" step="number" min="0" max="99" class="fInput" id="heightInches" placeholder="Centimeters" name="heightInches"/>
-                                } else {
-                                    <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Feet" name="heightFeet"/>
-                                    <input type="number" step="number" min="0" max="11" class="fInput" id="heightInches" placeholder="Inches" name="heightInches"/>
-                                }
+                            @if(viewModel.getSettings.isMetric) {
+                                    <!---  Alaa Serhan -->
+                                <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Meters" name="heightFeet"/>
+                                <input type="number" step="number" min="0" max="99" class="fInput" id="heightInches" placeholder="Centimeters" name="heightInches"/>
+                            } else {
+                                <input type="number" step="number" min="0" class="fInput" id="heightFeet" placeholder="Feet" name="heightFeet"/>
+                                <input type="number" step="number" min="0" max="11" class="fInput" id="heightInches" placeholder="Inches" name="heightInches"/>
+                            }
                             </div>
                         </div>
                         <div class="vitalWrap">
                             <label for="weight">Weight</label>
-                            @if(viewModel.getSettings.isMetric) { <!---  Alaa Serhan -->
+                            @if(viewModel.getSettings.isMetric) {
+                                    <!---  Alaa Serhan -->
                                 <input type="number" step="any" min="0" class="fInput" id="weight" name="weight" placeholder="kgs"/>
                             } else {
                                 <input type="number" step="any" min="0" class="fInput" id="weight" name="weight" placeholder="lbs"/>

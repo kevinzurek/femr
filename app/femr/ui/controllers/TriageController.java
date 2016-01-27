@@ -24,7 +24,7 @@ import java.util.Map;
 @AllowedRoles({Roles.PHYSICIAN, Roles.PHARMACIST, Roles.NURSE})
 public class TriageController extends Controller {
 
-    private final Form<IndexViewModel> IndexViewModelForm = Form.form(IndexViewModel.class);
+    private Form<IndexViewModel> IndexViewModelForm = Form.form(IndexViewModel.class);
     private final IEncounterService encounterService;
     private final IPatientService patientService;
     private final ISessionService sessionService;
@@ -71,7 +71,8 @@ public class TriageController extends Controller {
         viewModel.setSettings(settingItemServiceResponse.getResponseObject());
         viewModel.setPossibleAgeClassifications(patientAgeClassificationsResponse.getResponseObject());
 
-        return ok(index.render(currentUser, viewModel));
+        IndexViewModelForm.fill(viewModel);
+        return ok(index.render(currentUser, IndexViewModelForm, viewModel));
     }
 
     /*
@@ -121,7 +122,9 @@ public class TriageController extends Controller {
             viewModel.setLinkToMedical(false);
         }
 
-        return ok(index.render(currentUser, viewModel));
+
+        IndexViewModelForm = IndexViewModelForm.fill(viewModel);
+        return ok(index.render(currentUser, IndexViewModelForm, viewModel));
     }
 
     /*

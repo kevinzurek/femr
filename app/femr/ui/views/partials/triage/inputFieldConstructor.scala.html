@@ -1,0 +1,18 @@
+@(elements: helper.FieldElements)
+
+<div class="generalInfoInput">
+
+    <label for="@elements.name">@elements.label
+        @if(elements.args.get('_isRequired).contains(true)){
+            <span class="red bold">*</span>
+        }
+    </label>
+
+    @elements.input
+
+    @*if(value == null) {
+        <input type="@tipe" class="fInput" id="@idInput" name="@nameInput" placeholder="@name">
+    } else {
+        <input type="@tipe" class="fInput" id="@idInput" name="@nameInput" value="@value" readonly/>
+    } *@
+</div>
