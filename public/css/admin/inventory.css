@@ -171,6 +171,10 @@
   margin-bottom: 5px;
 }
 
+#inventoryOptionsWrap{
+    display: inline-block;
+}
+
 @media only screen  and (max-width : 1200px) {
 
     .newMedicationWrap .ingredientWrap {

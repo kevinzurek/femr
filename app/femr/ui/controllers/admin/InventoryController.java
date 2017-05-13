@@ -28,7 +28,7 @@ import femr.ui.helpers.security.AllowedRoles;
 import femr.ui.helpers.security.FEMRAuthenticated;
 import femr.ui.models.admin.inventory.*;
 import femr.common.models.MedicationItem;
-import femr.ui.views.html.admin.inventory.manage;
+import femr.ui.views.html.admin.inventory.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -71,7 +71,6 @@ public class InventoryController extends Controller {
     public Result manageGet() {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
-
         InventoryViewModelGet viewModel = new InventoryViewModelGet();
 
         // If the use does not have a trip ID, we cannot retrieve the list of medications
@@ -80,10 +79,13 @@ public class InventoryController extends Controller {
 
             ServiceResponse<List<MedicationItem>> medicationServiceResponse = inventoryService.retrieveMedicationInventorysByTripId(currentUser.getTripId());
             if (medicationServiceResponse.hasErrors()) {
+
                 throw new RuntimeException();
             } else {
+
                 viewModel.setMedications(medicationServiceResponse.getResponseObject());
             }
+
 
             ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
             if (missionTripServiceResponse.hasErrors()) {
@@ -94,17 +96,48 @@ public class InventoryController extends Controller {
                 viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
             }
 
-        }
-        else{
+        } else {
 
-            viewModel.setMedications( new ArrayList<>() );
+            viewModel.setMedications(new ArrayList<>());
         }
+
+        return ok(manage.render(currentUser, viewModel));
+    }
+
+    public Result existingGet() {
+        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
+
+        InventoryViewModelGet viewModel = new InventoryViewModelGet();
 
         ServiceResponse<List<MedicationItem>> conceptMedicationServiceResponse = conceptService.retrieveAllMedicationConcepts();
         if (conceptMedicationServiceResponse.hasErrors()) {
             throw new RuntimeException();
         } else {
             viewModel.setConceptMedications(conceptMedicationServiceResponse.getResponseObject());
+        }
+
+        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
+        if (missionTripServiceResponse.hasErrors()) {
+
+            throw new RuntimeException();
+        } else {
+
+            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
+        }
+
+        return ok(existing.render(currentUser, viewModel));
+    }
+
+    public Result customGet() {
+        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
+
+        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+
+        ServiceResponse<List<String>> availableMedicationFormsResponse = medicationService.retrieveAvailableMedicationForms();
+        if (availableMedicationFormsResponse.hasErrors()) {
+            throw new RuntimeException();
+        } else {
+            viewModel.setAvailableForms(availableMedicationFormsResponse.getResponseObject());
         }
 
         ServiceResponse<List<String>> availableMedicationUnitsResponse = medicationService.retrieveAvailableMedicationUnits();
@@ -114,14 +147,16 @@ public class InventoryController extends Controller {
             viewModel.setAvailableUnits(availableMedicationUnitsResponse.getResponseObject());
         }
 
-        ServiceResponse<List<String>> availableMedicationFormsResponse = medicationService.retrieveAvailableMedicationForms();
-        if (availableMedicationFormsResponse.hasErrors()) {
+        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
+        if (missionTripServiceResponse.hasErrors()) {
+
             throw new RuntimeException();
         } else {
-            viewModel.setAvailableForms(availableMedicationFormsResponse.getResponseObject());
+
+            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
         }
 
-        return ok(manage.render(currentUser, viewModel));
+        return ok(custom.render(currentUser, viewModel));
     }
 
     /**
