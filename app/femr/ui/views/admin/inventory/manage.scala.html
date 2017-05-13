@@ -23,16 +23,6 @@
 
     @inventoryMenu(viewModel.getMissionTripItem)
 
-    @if( viewModel.getMissionTripItem == null ){
-
-    } else {
-        <span>
-        @defining(viewModel.getMissionTripItem) { trip =>
-
-        }
-        </span>
-    }
-
 
     <div id="currentMedication">
         <h3>Current Formulary:</h3>
@@ -99,16 +89,5 @@
             </table>
         </div>
     </div>
-
-
-    @if(currentUser.getTripId == null) {
-        <fieldset disabled="disabled">
-        }
-
-    @if(currentUser.getTripId() == null) {
-    </fieldset>
-    }
-
-
 
 }
