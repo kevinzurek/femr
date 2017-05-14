@@ -28,7 +28,13 @@
         <h3>Current Formulary:</h3>
         <div class="row" id="currentMedicationHeader">
             <div class="col-xs-9">
-                -As medications are dispensed, quantity will be subtracted from the Current Quantity column.
+                <ul>
+                    <li>Add medications using the buttons above</li>
+                    <li>Formulary only applies to Users on the trip <b>mentioned above</b></li>
+                    <li>Manually edit Current/Initial quantity below</li>
+                    <li>Quantity will be subtracted from the Current Quantity column after being dispensed in Pharmacy</li>
+                    <li>Export your inventory data using the "Export as CSV" button to the right</li>
+                </ul>
             </div>
             <div class="col-xs-3">
                 @if( currentUser.getTripId() == null ){

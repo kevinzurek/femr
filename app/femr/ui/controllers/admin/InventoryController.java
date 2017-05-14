@@ -104,60 +104,6 @@ public class InventoryController extends Controller {
         return ok(manage.render(currentUser, viewModel));
     }
 
-    public Result existingGet() {
-        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
-
-        InventoryViewModelGet viewModel = new InventoryViewModelGet();
-
-        ServiceResponse<List<MedicationItem>> conceptMedicationServiceResponse = conceptService.retrieveAllMedicationConcepts();
-        if (conceptMedicationServiceResponse.hasErrors()) {
-            throw new RuntimeException();
-        } else {
-            viewModel.setConceptMedications(conceptMedicationServiceResponse.getResponseObject());
-        }
-
-        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
-        if (missionTripServiceResponse.hasErrors()) {
-
-            throw new RuntimeException();
-        } else {
-
-            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
-        }
-
-        return ok(existing.render(currentUser, viewModel));
-    }
-
-    public Result customGet() {
-        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
-
-        InventoryViewModelGet viewModel = new InventoryViewModelGet();
-
-        ServiceResponse<List<String>> availableMedicationFormsResponse = medicationService.retrieveAvailableMedicationForms();
-        if (availableMedicationFormsResponse.hasErrors()) {
-            throw new RuntimeException();
-        } else {
-            viewModel.setAvailableForms(availableMedicationFormsResponse.getResponseObject());
-        }
-
-        ServiceResponse<List<String>> availableMedicationUnitsResponse = medicationService.retrieveAvailableMedicationUnits();
-        if (availableMedicationUnitsResponse.hasErrors()) {
-            throw new RuntimeException();
-        } else {
-            viewModel.setAvailableUnits(availableMedicationUnitsResponse.getResponseObject());
-        }
-
-        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
-        if (missionTripServiceResponse.hasErrors()) {
-
-            throw new RuntimeException();
-        } else {
-
-            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
-        }
-
-        return ok(custom.render(currentUser, viewModel));
-    }
 
     /**
      * Handles the submission of a new medication from the Admin Inventory Tracking screen.
@@ -266,6 +212,75 @@ public class InventoryController extends Controller {
                 }
             }
         }
+
+        return redirect("/admin/inventory");
+    }
+
+
+    /**
+     * Page for adding a new custom medication
+     */
+    public Result customGet() {
+        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
+
+        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+
+        ServiceResponse<List<String>> availableMedicationFormsResponse = medicationService.retrieveAvailableMedicationForms();
+        if (availableMedicationFormsResponse.hasErrors()) {
+            throw new RuntimeException();
+        } else {
+            viewModel.setAvailableForms(availableMedicationFormsResponse.getResponseObject());
+        }
+
+        ServiceResponse<List<String>> availableMedicationUnitsResponse = medicationService.retrieveAvailableMedicationUnits();
+        if (availableMedicationUnitsResponse.hasErrors()) {
+            throw new RuntimeException();
+        } else {
+            viewModel.setAvailableUnits(availableMedicationUnitsResponse.getResponseObject());
+        }
+
+        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
+        if (missionTripServiceResponse.hasErrors()) {
+
+            throw new RuntimeException();
+        } else {
+
+            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
+        }
+
+        return ok(custom.render(currentUser, viewModel));
+    }
+
+    /**
+     * Page for adding a new medication from the concept dictionary
+     */
+    public Result existingGet() {
+        CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
+
+        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+
+        ServiceResponse<List<MedicationItem>> conceptMedicationServiceResponse = conceptService.retrieveAllMedicationConcepts();
+        if (conceptMedicationServiceResponse.hasErrors()) {
+            throw new RuntimeException();
+        } else {
+            viewModel.setConceptMedications(conceptMedicationServiceResponse.getResponseObject());
+        }
+
+        ServiceResponse<MissionTripItem> missionTripServiceResponse = missionTripService.retrieveAllTripInformationByTripId(currentUser.getTripId());
+        if (missionTripServiceResponse.hasErrors()) {
+
+            throw new RuntimeException();
+        } else {
+
+            viewModel.setMissionTripItem(missionTripServiceResponse.getResponseObject());
+        }
+
+        return ok(existing.render(currentUser, viewModel));
+    }
+
+    public Result existingPost() {
+
+
 
         return redirect("/admin/inventory");
     }
