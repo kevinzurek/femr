@@ -29,7 +29,10 @@
     @helper.form(action = InventoryController.existingPost()) {
 
         <h3>Add Existing Medicine To Formulary:</h3>
-        <p>-Add medication(s) from the concept dictionary. Adjust current/initial quantity in the Current Formulary section after clicking Submit.</p>
+        <ul>
+            <li>Add medication(s) from fEMR's concept dictionary below</li>
+            <li>Adjust current/initial quantity in the Formulary after adding</li>
+        </ul>
         <div class="newMedicationWrap">
             <select id="addConceptMedicineSelect2" multiple="multiple" name="newConceptMedicationsForInventory[]">
             @defining(viewModel.getConceptMedications) { conceptMeds =>

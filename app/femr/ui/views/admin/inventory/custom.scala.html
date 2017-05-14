@@ -6,15 +6,12 @@
 
 @additionalStyles = {
 
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/libraries/select2.min.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("css/libraries/jquery.dataTables.min.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("css/admin/inventory.css")">
 }
 @additionalScripts = {
 
-    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/select2.min.js")"></script>
     <script type = "text/javascript" src="@routes.Assets.versioned("js/libraries/jquery.dataTables.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.versioned("js/libraries/typeahead.bundle.min.js")"></script>
     <script type = "text/javascript" src="@routes.Assets.versioned("js/admin/inventory.js")"></script>
 }
 
@@ -29,7 +26,9 @@
     @helper.form(action = InventoryController.customPost()) {
 
         <h3>Add Custom Medicine To Formulary:</h3>
-        <p>-Add a new medication that does not exist in the concept dictionary.</p>
+        <ul>
+            <li>If a medication does not exist in the concept dictionary, add it below</li>
+        </ul>
         <div class="newMedicationWrap">
 
             <div class="row">
