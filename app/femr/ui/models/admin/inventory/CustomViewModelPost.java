@@ -38,6 +38,7 @@ public class CustomViewModelPost {
 
         List<ValidationError> errors = new ArrayList<>();
 
+        //if nothing is entered for quantity, default to 0
         if (medicationQuantity == null) {
 
             medicationQuantity = 0;
@@ -51,26 +52,11 @@ public class CustomViewModelPost {
 
         // Based on the error from JIRA fEMR-278, generic name is required
         for (int i = 0; i < medicationIngredient.size(); i++) {
-            if (StringUtils.isNullOrWhiteSpace(medicationIngredient.get(i)) && medicationStrength.get(i) > 0.0) {
+            if (StringUtils.isNullOrWhiteSpace(medicationIngredient.get(i)) || medicationStrength.get(i) == null) {
                 errors.add(new ValidationError("medicationGeneric", "a generic name is required"));
             }
         }
 
-
-        /*
-        for (Integer i : medicationStrength){
-            if (i == null)
-                errors.add(new ValidationError("medicationStrength", "all strength fields are required"));
-        }
-        for (String ms : medicationUnit){
-            if (StringUtils.isNullOrWhiteSpace(ms))
-                errors.add(new ValidationError("medicationUnit", "all units are required"));
-        }
-        for (String mi : medicationIngredient){
-            if (StringUtils.isNullOrWhiteSpace(mi))
-                errors.add(new ValidationError("medicationIngredient", "all ingredients required"));
-        }
-*/
         return errors.isEmpty() ? null : errors;
     }
 

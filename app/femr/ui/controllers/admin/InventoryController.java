@@ -75,7 +75,7 @@ public class InventoryController extends Controller {
     public Result manageGet() {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
-        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+        ManageViewModelGet viewModel = new ManageViewModelGet();
 
         // If the use does not have a trip ID, we cannot retrieve the list of medications
         // since they are tied to a trip
@@ -115,7 +115,7 @@ public class InventoryController extends Controller {
     public Result customGet() {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
-        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+        CustomViewModelGet viewModel = new CustomViewModelGet();
 
         ServiceResponse<List<String>> availableMedicationFormsResponse = medicationService.retrieveAvailableMedicationForms();
         if (availableMedicationFormsResponse.hasErrors()) {
@@ -222,7 +222,7 @@ public class InventoryController extends Controller {
     public Result existingGet() {
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
-        InventoryViewModelGet viewModel = new InventoryViewModelGet();
+        ExistingViewModelGet viewModel = new ExistingViewModelGet();
 
         ServiceResponse<List<MedicationItem>> conceptMedicationServiceResponse = conceptService.retrieveAllMedicationConcepts();
         if (conceptMedicationServiceResponse.hasErrors()) {
