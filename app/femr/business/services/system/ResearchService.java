@@ -340,7 +340,6 @@ public class ResearchService implements IResearchService {
                 .fetch("patientPrescriptions")
                 .fetch("patientPrescriptions.medication");
 
-
         ExpressionList<ResearchEncounter> researchEncounterExpressionList = researchEncounterQuery.where();
 
         // -1 is default from form
@@ -351,16 +350,34 @@ public class ResearchService implements IResearchService {
 
         researchEncounterExpressionList.isNull("patient.isDeleted");
         researchEncounterExpressionList.orderBy().desc("date_of_triage_visit");
-
-
         researchEncounterExpressionList.findList();
+
         List<? extends IResearchEncounter> patientEncounters = researchEncounterRepository.find(researchEncounterExpressionList);
 
+
+        // As new patients are encountered, generate a UUID to represent them in the export file
+        Map<Integer, UUID> patientIdMap = new HashMap<>();
+
+        // Format patient data for the csv file
         List<ResearchExportItem> researchExportItemsForCSVExport = new ArrayList<>();
 
         for(IResearchEncounter patientEncounter : patientEncounters ){
 
-            ResearchExportItem item = createResearchExportItem(patientEncounter, UUID.randomUUID());
+            UUID patient_uuid;
+
+            // If UUID already generated for patient, use that
+            if( patientIdMap.containsKey(patientEncounter.getPatient().getId()) ){
+
+                patient_uuid = patientIdMap.get(patientEncounter.getPatient().getId());
+            }
+            // otherwise generate and store for potential additional patient encounters
+            else{
+
+                patient_uuid = UUID.randomUUID();
+                patientIdMap.put(patientEncounter.getPatient().getId(), patient_uuid);
+            }
+
+            ResearchExportItem item = createResearchExportItem(patientEncounter, patient_uuid);
             researchExportItemsForCSVExport.add(item);
         }
 
