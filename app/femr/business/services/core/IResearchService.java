@@ -30,18 +30,6 @@ import java.util.List;
  */
 public interface IResearchService {
 
-
-    /**
-     * Take filters and build matching data for graph.
-     *
-     * @param filterItem object representing chosen filters
-     * @return a service response that contains graph data bundled for display
-     * and/or errors if they exist.
-     */
-     ServiceResponse<ResearchResultSetItem> retrieveGraphData(ResearchFilterItem filterItem);
-
-     ServiceResponse<File> retrieveCsvExportFile(ResearchFilterItem filters);
-
      /**
      *
      *

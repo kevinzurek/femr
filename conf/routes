@@ -75,10 +75,9 @@ GET         /medical                                           @femr.ui.controll
 POST        /medical                                           @femr.ui.controllers.MedicalController.indexPost()
 GET         /medical/prescriptionRow/:index                    @femr.ui.controllers.MedicalController.prescriptionRowGet( index: Integer )
 POST        /medical/deleteProblem/:patientId/:problem         @femr.ui.controllers.MedicalController.deleteExistingProblem(patientId: Integer, problem: String)
-#Research
-GET         /research                                          @femr.ui.controllers.ResearchController.indexGet()
-POST        /research                                          @femr.ui.controllers.ResearchController.indexPost()
-POST        /research/exportData                               @femr.ui.controllers.ResearchController.exportPost()
+#Data
+GET         /data                                              @femr.ui.controllers.ResearchController.indexGet()
+POST        /data/:id                                          @femr.ui.controllers.ResearchController.exportPost(id: Integer)
 #Pdf
 GET         /pdf/encounter/:encounterId                        @femr.ui.controllers.PDFController.index(encounterId : Integer)
 #Sessions

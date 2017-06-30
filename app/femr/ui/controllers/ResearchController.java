@@ -92,41 +92,15 @@ public class ResearchController extends Controller {
         return ok(index.render(currentUserSession, filterViewModel));
     }
 
-    /**
-     * Called when user clicks apply on the selected filters.
-     */
-    public Result indexPost() {
-
-        final Form<FilterViewModel> FilterViewModelForm = formFactory.form(FilterViewModel.class);
-        FilterViewModel filterViewModel = FilterViewModelForm.bindFromRequest().get();
-        ResearchFilterItem researchFilterItem = createResearchFilterItem(filterViewModel);
-
-        ServiceResponse<ResearchResultSetItem> response = researchService.retrieveGraphData(researchFilterItem);
-        ResearchGraphDataModel graphModel = new ResearchGraphDataModel();
-        if (!response.hasErrors()) {
-
-            ResearchResultSetItem results = response.getResponseObject();
-            graphModel = buildGraphModel(results);
-        }
-
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(graphModel);
-        return ok(jsonString);
-    }
 
     /**
      * Called when a user wants to export the data to a CSV file.
      */
-    public Result exportPost() {
+    public Result exportPost(int tripId) {
 
-        final Form<FilterViewModel> FilterViewModelForm = formFactory.form(FilterViewModel.class);
-        FilterViewModel filterViewModel = FilterViewModelForm.bindFromRequest().get();
+        final Form<FilterViewModel> filterViewModelForm = formFactory.form(FilterViewModel.class);
 
-        ResearchFilterItem filterItem = createResearchFilterItem(filterViewModel);
-
-        // This does weird stuff and isn't reliable.
-        //ServiceResponse<File> exportServiceResponse = researchService.retrieveCsvExportFile(filterItem);
-        ServiceResponse<File> exportServiceResponse = researchService.exportPatientsByTrip(filterItem.getMissionTripId());
+        ServiceResponse<File> exportServiceResponse = researchService.exportPatientsByTrip(tripId);
 
         File csvFile = exportServiceResponse.getResponseObject();
 
@@ -135,86 +109,4 @@ public class ResearchController extends Controller {
         return ok(csvFile).as("application/x-download");
     }
 
-    /**
-     * Generate and provide an instance of ResearchFilterItem.
-     * Moved from an implementation of IItemModelMapper on 6-10-2015 by Kevin
-     *
-     * @param filterViewModel a viewmodel, not null
-     * @return ResearchFilterItem or null if processing fails
-     */
-    private ResearchFilterItem createResearchFilterItem(FilterViewModel filterViewModel) {
-
-        if (filterViewModel == null) {
-
-            return null;
-        }
-
-        ResearchFilterItem filterItem = new ResearchFilterItem();
-
-        filterItem.setPrimaryDataset(filterViewModel.getPrimaryDataset());
-        filterItem.setSecondaryDataset(filterViewModel.getSecondaryDataset());
-        filterItem.setGraphType(filterViewModel.getGraphType());
-        filterItem.setStartDate(filterViewModel.getStartDate());
-        filterItem.setEndDate(filterViewModel.getEndDate());
-
-        Integer groupFactor = filterViewModel.getGroupFactor();
-        filterItem.setGroupFactor(groupFactor);
-        if (groupFactor != null && groupFactor > 0) {
-
-            filterItem.setGroupPrimary(filterViewModel.isGroupPrimary());
-        } else {
-
-            filterItem.setGroupPrimary(false);
-        }
-
-        filterItem.setFilterRangeStart(filterViewModel.getFilterRangeStart());
-        filterItem.setFilterRangeEnd(filterViewModel.getFilterRangeEnd());
-        filterItem.setMedicationName(filterViewModel.getMedicationName());
-        filterItem.setMissionTripId(filterViewModel.getMissionTripId()); //Andrew Trip Filter
-
-
-
-
-        return filterItem;
-    }
-
-    private ResearchGraphDataModel buildGraphModel(ResearchResultSetItem results) {
-
-        ResearchGraphDataModel graphModel = new ResearchGraphDataModel();
-
-        graphModel.setAverage(results.getAverage());
-        if (results.getDataRangeLow() > -1 * Float.MAX_VALUE) {
-            graphModel.setRangeLow(results.getDataRangeLow());
-        } else {
-            graphModel.setRangeLow(0.0f);
-        }
-        if (results.getDataRangeHigh() < Float.MAX_VALUE) {
-            graphModel.setRangeHigh(results.getDataRangeHigh());
-        } else {
-            graphModel.setRangeHigh(0.0f);
-        }
-        graphModel.setTotalPatients(results.getTotalPatients());
-        graphModel.setTotalEncounters(results.getTotalEncounters());
-
-        graphModel.setUnitOfMeasurement(results.getUnitOfMeasurement());
-        graphModel.setxAxisTitle(WordUtils.capitalize(StringUtils.splitCamelCase(results.getDataType())));
-        graphModel.setyAxisTitle("Number of Patients");
-
-        graphModel.setPrimaryValuemap(results.getPrimaryValueMap());
-        graphModel.setSecondaryValuemap(results.getSecondaryValueMap());
-
-        // @TODO - This go in item mapper?
-        List<ResearchItemModel> graphData = new ArrayList<>();
-        for (ResearchResultItem item : results.getDataset()) {
-
-            ResearchItemModel resultItem = new ResearchItemModel();
-            resultItem.setPrimaryName(item.getPrimaryName());
-            resultItem.setPrimaryValue(item.getPrimaryValue());
-            resultItem.setSecondaryData(item.getSecondaryData());
-            graphData.add(resultItem);
-        }
-        graphModel.setGraphData(graphData);
-
-        return graphModel;
-    }
 }
