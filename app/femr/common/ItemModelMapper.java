@@ -21,7 +21,6 @@ package femr.common;
 import femr.business.helpers.LogicDoer;
 import femr.common.models.*;
 import femr.data.models.core.*;
-import femr.data.models.mysql.MedicationInventory;
 import femr.util.calculations.dateUtils;
 import femr.util.stringhelpers.StringUtils;
 import org.joda.time.DateTime;
@@ -329,8 +328,7 @@ public class ItemModelMapper implements IItemModelMapper {
      */
     @Override
     public PrescriptionItem createPrescriptionItem(int id, String name, String originalMedicationName, String firstName, String lastName,
-                                                   IConceptPrescriptionAdministration medicationAdministration, Integer amount, IMedication medication,
-                                                   Integer quantityCurrent, Integer quantityInitial, Boolean isCounseled) {
+                                                   IConceptPrescriptionAdministration medicationAdministration, Integer amount, Boolean isCounseled, MedicationItem medicationItem) {
 
 
         PrescriptionItem prescriptionItem = new PrescriptionItem();
@@ -353,7 +351,7 @@ public class ItemModelMapper implements IItemModelMapper {
 
         if (isCounseled != null)
             prescriptionItem.setCounseled(isCounseled);
-
+/*
         if (medication != null) {
 
             MedicationItem medicationItem;
@@ -367,6 +365,8 @@ public class ItemModelMapper implements IItemModelMapper {
                 medicationItem = createMedicationItem(medication, null, null, null, null, null);
             }
 
+
+
             prescriptionItem.setMedicationID(medicationItem.getId());
 
             if (medicationItem.getForm() != null)
@@ -374,7 +374,9 @@ public class ItemModelMapper implements IItemModelMapper {
 
             if (medicationItem.getActiveIngredients() != null)
                 prescriptionItem.setMedicationActiveDrugs(medicationItem.getActiveIngredients());
-        }
+        }*/
+        prescriptionItem.setMedicationItem(medicationItem);
+        prescriptionItem.setMedicationID(medicationItem.getId());//redundant, but keeping in for now to debug
         return prescriptionItem;
     }
 
@@ -384,9 +386,9 @@ public class ItemModelMapper implements IItemModelMapper {
     @Override
     public PrescriptionItem createPrescriptionItemWithReplacement(int id, String name, String replacementMedicationName, Integer replacementAmount, int replacementId, String firstName, String lastName,
                                                                   IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount,
-                                                                  IMedication medication, Integer quantityCurrent, Integer quantityInitial, Boolean isCounseled)  {
+                                                                  Boolean isCounseled, MedicationItem medicationItem)  {
 
-        PrescriptionItem prescriptionItem = createPrescriptionItem(id, name, null, firstName, lastName, conceptPrescriptionAdministration, amount, medication, quantityCurrent, quantityInitial, isCounseled);
+        PrescriptionItem prescriptionItem = createPrescriptionItem(id, name, null, firstName, lastName, conceptPrescriptionAdministration, amount, isCounseled, medicationItem);
         if (replacementMedicationName != null)
             prescriptionItem.setReplacementMedicationName(replacementMedicationName);
         prescriptionItem.setReplacementAmount(replacementAmount);

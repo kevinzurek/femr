@@ -78,12 +78,12 @@ public class MockItemModelMapper implements IItemModelMapper{
     }
 
     @Override
-    public PrescriptionItem createPrescriptionItem(int id, String name, String originalMedicationName, String firstName, String lastName, IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount, IMedication medication, Integer quantityCurrent, Integer quantityInitial, Boolean isCounseled) {
+    public PrescriptionItem createPrescriptionItem(int id, String name, String originalMedicationName, String firstName, String lastName, IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount, Boolean isCounseled, MedicationItem medicationItem) {
         return null;
     }
 
     @Override
-    public PrescriptionItem createPrescriptionItemWithReplacement(int id, String name, String replacementMedicationName, Integer replacementAmount, int replacementId, String firstName, String lastName, IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount, IMedication medication, Integer quantityCurrent, Integer quantityInitial, Boolean isCounseled) {
+    public PrescriptionItem createPrescriptionItemWithReplacement(int id, String name, String replacementMedicationName, Integer replacementAmount, int replacementId, String firstName, String lastName, IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount, Boolean isCounseled, MedicationItem medicationItem) {
         return null;
     }
 
