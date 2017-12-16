@@ -125,6 +125,25 @@ public class PrescriptionItem {
         return amount.toString();
     }
 
+    public String printFullPrescriptionName() {
+        String fullPrescriptionName = "";
+        if (amount != null)
+            fullPrescriptionName = fullPrescriptionName + amount + " - ";
+        else
+            fullPrescriptionName = fullPrescriptionName + "N/A - ";
+
+        if (medicationItem != null) {
+            fullPrescriptionName = fullPrescriptionName + " " + medicationItem.getFullName();
+        }
+
+        if (administrationName != null)
+            fullPrescriptionName = fullPrescriptionName + " - " + getAdministrationName();
+        else
+            fullPrescriptionName = fullPrescriptionName + " - " + "N/A";
+
+        return fullPrescriptionName;
+    }
+
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
