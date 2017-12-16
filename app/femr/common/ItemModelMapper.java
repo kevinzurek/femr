@@ -327,16 +327,15 @@ public class ItemModelMapper implements IItemModelMapper {
      * {@inheritDoc}
      */
     @Override
-    public PrescriptionItem createPrescriptionItem(int id, String name, String originalMedicationName, String firstName, String lastName,
-                                                   IConceptPrescriptionAdministration medicationAdministration, Integer amount, Boolean isCounseled, MedicationItem medicationItem) {
+    public PrescriptionItem createPrescriptionItem(int id, String name, String firstName, String lastName,
+                                                   IConceptPrescriptionAdministration medicationAdministration,
+                                                   Integer amount, Boolean isCounseled, MedicationItem medicationItem) {
 
 
         PrescriptionItem prescriptionItem = new PrescriptionItem();
 
         prescriptionItem.setId(id);
         prescriptionItem.setName(name);
-        if (originalMedicationName != null)
-            prescriptionItem.setOriginalMedicationName(originalMedicationName);
         if (StringUtils.isNotNullOrWhiteSpace(firstName))
             prescriptionItem.setPrescriberFirstName(firstName);
         if (StringUtils.isNotNullOrWhiteSpace(lastName))
@@ -384,14 +383,13 @@ public class ItemModelMapper implements IItemModelMapper {
      * {@inheritDoc}
      */
     @Override
-    public PrescriptionItem createPrescriptionItemWithReplacement(int id, String name, String replacementMedicationName, Integer replacementAmount, int replacementId, String firstName, String lastName,
+    public PrescriptionItem createPrescriptionItemWithReplacement(int id, String name, String replacementMedicationName, int replacementId, String firstName, String lastName,
                                                                   IConceptPrescriptionAdministration conceptPrescriptionAdministration, Integer amount,
                                                                   Boolean isCounseled, MedicationItem medicationItem)  {
 
-        PrescriptionItem prescriptionItem = createPrescriptionItem(id, name, null, firstName, lastName, conceptPrescriptionAdministration, amount, isCounseled, medicationItem);
+        PrescriptionItem prescriptionItem = createPrescriptionItem(id, name, firstName, lastName, conceptPrescriptionAdministration, amount, isCounseled, medicationItem);
         if (replacementMedicationName != null)
             prescriptionItem.setReplacementMedicationName(replacementMedicationName);
-        prescriptionItem.setReplacementAmount(replacementAmount);
         prescriptionItem.setReplacementId(replacementId);
         return prescriptionItem;
 
