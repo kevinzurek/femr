@@ -371,12 +371,9 @@ public class SearchService implements ISearchService {
                         pp.getPhysician().getLastName(),
                         pp.getConceptPrescriptionAdministration(),
                         pp.getAmount(),
-                        pp.getMedication(),
-                        quantityCurrent,
-                        quantityInitial,
-                        pp.isCounseled()
+                        pp.isCounseled(),
+                        medicationItem
                 );
-                item.setMedicationItem(medicationItem);
                 prescriptionItems.add(item);
             }
 
@@ -406,6 +403,8 @@ public class SearchService implements ISearchService {
 
         try {
             List<? extends IPatientPrescription> patientPrescriptions = patientPrescriptionRepository.find(query);
+
+
             List<PrescriptionItem> prescriptionItems = patientPrescriptions.stream()
                     .filter(pp -> pp.getDateDispensed() != null)
                     .map(pp -> itemModelMapper.createPrescriptionItem(
@@ -416,10 +415,8 @@ public class SearchService implements ISearchService {
                             pp.getPhysician().getLastName(),
                             pp.getConceptPrescriptionAdministration(),
                             pp.getAmount(),
-                            pp.getMedication(),
-                            null,
-                            null,
-                            pp.isCounseled()
+                            pp.isCounseled(),
+                            itemModelMapper.createMedicationItem(pp.getMedication(), null, null, null, null, null)
                     ))
                     .collect(Collectors.toList());
 
@@ -435,10 +432,8 @@ public class SearchService implements ISearchService {
                             pp.getPhysician().getLastName(),
                             pp.getConceptPrescriptionAdministration(),
                             pp.getAmount(),
-                            pp.getMedication(),
-                            null,
-                            null,
-                            pp.isCounseled()
+                            pp.isCounseled(),
+                            itemModelMapper.createMedicationItem(pp.getMedication(), null, null, null, null, null)
                     ))
                     .collect(Collectors.toList());
             prescriptionItems.addAll(replacedPrescriptions);

@@ -35,7 +35,6 @@ import femr.data.daos.IRepository;
 import femr.data.daos.core.*;
 import femr.data.models.core.*;
 import femr.data.models.mysql.*;
-import femr.data.models.mysql.concepts.ConceptMedication;
 import femr.data.models.mysql.concepts.ConceptMedicationForm;
 import femr.data.models.mysql.concepts.ConceptMedicationUnit;
 import femr.data.models.mysql.concepts.ConceptPrescriptionAdministration;
@@ -245,10 +244,8 @@ public class MedicationService implements IMedicationService {
                         prescriptionReplacement.getReplacementPrescription().getPhysician().getLastName(),
                         prescriptionReplacement.getReplacementPrescription().getConceptPrescriptionAdministration(),
                         prescriptionReplacement.getReplacementPrescription().getAmount(),
-                        prescriptionReplacement.getReplacementPrescription().getMedication(),
-                        null,
-                        null,
-                        prescriptionReplacement.getReplacementPrescription().isCounseled())
+                        prescriptionReplacement.getReplacementPrescription().isCounseled(),
+                        itemModelMapper.createMedicationItem(prescriptionReplacement.getReplacementPrescription().getMedication(), null, null, null, null, null))
                 );
             }
         } catch (Exception ex) {
@@ -289,7 +286,7 @@ public class MedicationService implements IMedicationService {
 
 
 
-
+                MedicationItem medicationItem = itemModelMapper.createMedicationItem(prescription.getMedication(), null, null, null, null, null);
                 prescriptionItems.add(itemModelMapper.createPrescriptionItem(prescription.getId(),
                         prescription.getMedication().getName(),
                         null,
@@ -297,10 +294,8 @@ public class MedicationService implements IMedicationService {
                         prescription.getPhysician().getLastName(),
                         prescription.getConceptPrescriptionAdministration(),
                         prescription.getAmount(),
-                        prescription.getMedication(),
-                        null,
-                        null,
-                        prescription.isCounseled())
+                        prescription.isCounseled(),
+                        medicationItem)
                 );
 
             } catch (Exception ex) {
@@ -336,6 +331,7 @@ public class MedicationService implements IMedicationService {
             patientPrescription = patientPrescriptionRepository.create(patientPrescription);
 
 
+            MedicationItem medicationItem = itemModelMapper.createMedicationItem(patientPrescription.getMedication(), null, null, null, null, null);
             PrescriptionItem prescriptionItem = itemModelMapper.createPrescriptionItem(
                     patientPrescription.getId(),
                     patientPrescription.getMedication().getName(),
@@ -344,10 +340,8 @@ public class MedicationService implements IMedicationService {
                     patientPrescription.getPhysician().getLastName(),
                     patientPrescription.getConceptPrescriptionAdministration(),
                     patientPrescription.getAmount(),
-                    patientPrescription.getMedication(),
-                    null,
-                    null,
-                    patientPrescription.isCounseled());
+                    patientPrescription.isCounseled(),
+                    medicationItem);
             response.setResponseObject(prescriptionItem);
         } catch (Exception ex) {
 
@@ -389,6 +383,7 @@ public class MedicationService implements IMedicationService {
 
             patientPrescription = patientPrescriptionRepository.create(patientPrescription);
 
+            MedicationItem medicationItem = itemModelMapper.createMedicationItem(patientPrescription.getMedication(), null, null, null, null, null);
             PrescriptionItem prescriptionItem = itemModelMapper.createPrescriptionItem(
                     patientPrescription.getId(),
                     patientPrescription.getMedication().getName(),
@@ -397,10 +392,8 @@ public class MedicationService implements IMedicationService {
                     patientPrescription.getPhysician().getLastName(),
                     patientPrescription.getConceptPrescriptionAdministration(),
                     patientPrescription.getAmount(),
-                    patientPrescription.getMedication(),
-                    null,
-                    null,
-                    patientPrescription.isCounseled());
+                    patientPrescription.isCounseled(),
+                    medicationItem);
             response.setResponseObject(prescriptionItem);
 
         } catch (Exception ex) {
