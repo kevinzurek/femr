@@ -44,6 +44,8 @@ public class PrescriptionItem {
     //was the checkbox checked for this prescription indicating the patient was counseled by the pharmacist
     private Boolean isCounseled;
 
+    private MedicationItem medicationItem;
+
     public PrescriptionItem(String name){
         medicationActiveDrugs = new ArrayList<MedicationItem.ActiveIngredient>();
         this.name = name;
@@ -215,5 +217,13 @@ public class PrescriptionItem {
 
     public void setReplacementId(int replacementId) {
         this.replacementId = replacementId;
+    }
+
+    public MedicationItem getMedicationItem() {
+        return medicationItem;
+    }
+
+    public void setMedicationItem(MedicationItem medicationItem) {
+        this.medicationItem = medicationItem;
     }
 }
