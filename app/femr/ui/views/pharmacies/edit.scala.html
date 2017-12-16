@@ -61,7 +61,7 @@
                             <input type="text" class="hidden" name="prescriptions[@(x-1)].id" value="@prescription.getId"/>
                             <button type="button" class="fButton fOtherButton replaceBtn">R</button>
                             <div>
-                                <span>@prescription.printAmount @prescription.getMedicationItem.getFullName - @prescription.getAdministrationName </span>
+                                <span>@prescription.printFullPrescriptionName </span>
                             </div>
                             <div>
                                 <span id="prescriber">

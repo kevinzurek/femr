@@ -462,7 +462,7 @@ public class PDFController extends Controller {
                 cell = new HtmlCell();
                 if (prescription.getReplacementMedicationName() != null) {
                     cell.addElement(new Paragraph("Prescription #" + prescription.getId() + " - REPLACED", getValueFont()));
-                    cell.addElement(new Paragraph(prescription.getAmount() + " " + prescription.getMedicationItem().getFullName() + " " + prescription.getAdministrationName(), getValueFontStrikethrough()));
+                    cell.addElement(new Paragraph(prescription.printFullPrescriptionName(), getValueFontStrikethrough()));
 
                     cell.addElement(
                             new Paragraph(
@@ -471,7 +471,7 @@ public class PDFController extends Controller {
                     );
                 } else {
                     cell.addElement(new Paragraph("Prescription #" + prescription.getId(), getValueFont()));
-                    cell.addElement(new Paragraph(prescription.getAmount() + " " + prescription.getMedicationItem().getFullName() + " " + prescription.getAdministrationName()));
+                    cell.addElement(new Paragraph(prescription.printFullPrescriptionName()));
                 }
 
                 cell.setColspan(2);
