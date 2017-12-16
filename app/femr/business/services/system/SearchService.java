@@ -366,7 +366,6 @@ public class SearchService implements ISearchService {
 
                         pp.getId(),
                         pp.getMedication().getName(),
-                        null,
                         pp.getPhysician().getFirstName(),
                         pp.getPhysician().getLastName(),
                         pp.getConceptPrescriptionAdministration(),
@@ -410,7 +409,6 @@ public class SearchService implements ISearchService {
                     .map(pp -> itemModelMapper.createPrescriptionItem(
                             pp.getId(),
                             pp.getMedication().getName(),
-                            null,
                             pp.getPhysician().getFirstName(),
                             pp.getPhysician().getLastName(),
                             pp.getConceptPrescriptionAdministration(),
@@ -426,7 +424,6 @@ public class SearchService implements ISearchService {
                             pp.getId(),
                             pp.getMedication().getName(),
                             pp.getPatientPrescriptionReplacements().get(0).getReplacementPrescription().getMedication().getName(),
-                            pp.getPatientPrescriptionReplacements().get(0).getReplacementPrescription().getAmount(),
                             pp.getPatientPrescriptionReplacements().get(0).getReplacementPrescription().getId(),
                             pp.getPhysician().getFirstName(),
                             pp.getPhysician().getLastName(),

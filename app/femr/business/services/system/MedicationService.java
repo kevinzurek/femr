@@ -239,7 +239,6 @@ public class MedicationService implements IMedicationService {
                 prescriptionItems.add(itemModelMapper.createPrescriptionItem(
                         prescriptionReplacement.getReplacementPrescription().getId(),
                         prescriptionReplacement.getReplacementPrescription().getMedication().getName(),
-                        null,
                         prescriptionReplacement.getReplacementPrescription().getPhysician().getFirstName(),
                         prescriptionReplacement.getReplacementPrescription().getPhysician().getLastName(),
                         prescriptionReplacement.getReplacementPrescription().getConceptPrescriptionAdministration(),
@@ -289,7 +288,6 @@ public class MedicationService implements IMedicationService {
                 MedicationItem medicationItem = itemModelMapper.createMedicationItem(prescription.getMedication(), null, null, null, null, null);
                 prescriptionItems.add(itemModelMapper.createPrescriptionItem(prescription.getId(),
                         prescription.getMedication().getName(),
-                        null,
                         prescription.getPhysician().getFirstName(),
                         prescription.getPhysician().getLastName(),
                         prescription.getConceptPrescriptionAdministration(),
@@ -335,7 +333,6 @@ public class MedicationService implements IMedicationService {
             PrescriptionItem prescriptionItem = itemModelMapper.createPrescriptionItem(
                     patientPrescription.getId(),
                     patientPrescription.getMedication().getName(),
-                    null,
                     patientPrescription.getPhysician().getFirstName(),
                     patientPrescription.getPhysician().getLastName(),
                     patientPrescription.getConceptPrescriptionAdministration(),
@@ -387,7 +384,6 @@ public class MedicationService implements IMedicationService {
             PrescriptionItem prescriptionItem = itemModelMapper.createPrescriptionItem(
                     patientPrescription.getId(),
                     patientPrescription.getMedication().getName(),
-                    null,
                     patientPrescription.getPhysician().getFirstName(),
                     patientPrescription.getPhysician().getLastName(),
                     patientPrescription.getConceptPrescriptionAdministration(),
