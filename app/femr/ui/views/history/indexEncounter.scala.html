@@ -229,13 +229,13 @@
                                   @if(prescription.getReplacementMedicationName != null) {
                                           <p>
                                               <span class="prescription-id">Prescription #@prescription.getId() - <span class="red">Replaced</span></span>
-                                              <del>@prescription.printAmount @prescription.getMedicationItem.getFullName</del>
+                                              <del>@prescription.printAmount @prescription.getMedicationItem.getFullName @prescription.getAdministrationName</del>
                                           </p>
                                       <div class="alert">This prescription was replaced by prescription #@prescription.getReplacementId</div>
                                   } else {
                                       <p>
                                           <span class="prescription-id">Prescription #@prescription.getId()</span>
-                                          @prescription.printAmount @prescription.getMedicationItem.getFullName
+                                          @prescription.printAmount @prescription.getMedicationItem.getFullName @prescription.getAdministrationName
                                       </p>
                                   }
                                 </div>
