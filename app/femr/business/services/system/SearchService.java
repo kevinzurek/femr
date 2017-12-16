@@ -38,6 +38,7 @@ import femr.data.models.mysql.*;
 import femr.data.models.mysql.concepts.ConceptDiagnosis;
 import femr.util.calculations.LocaleUnitConverter;
 import femr.util.stringhelpers.StringUtils;
+import org.joda.time.DateTime;
 import play.Logger;
 
 import java.util.*;
@@ -334,6 +335,9 @@ public class SearchService implements ISearchService {
 
                 Integer quantityCurrent = null;
                 Integer quantityInitial = null;
+                DateTime isDeleted = null;
+                String timeAdded = "";
+                String createdBy = "";
 
                 //if the medication resides in inventory and the user is on the trip using that inventory
                 //this will make sure that information about the current state of inventory is included
@@ -349,9 +353,14 @@ public class SearchService implements ISearchService {
 
                         quantityCurrent = inventoryResponse.getResponseObject().getQuantityCurrent();
                         quantityInitial = inventoryResponse.getResponseObject().getQuantityTotal();
+                        isDeleted = inventoryResponse.getResponseObject().getIsDeleted();
+                        timeAdded = inventoryResponse.getResponseObject().getTimeAdded();
+                        createdBy = inventoryResponse.getResponseObject().getCreatedBy();
                     }
 
                 }
+
+                MedicationItem medicationItem = itemModelMapper.createMedicationItem(pp.getMedication(),quantityCurrent, quantityInitial, isDeleted, timeAdded, createdBy);
 
                 PrescriptionItem item = itemModelMapper.createPrescriptionItem(
 
@@ -367,6 +376,7 @@ public class SearchService implements ISearchService {
                         quantityInitial,
                         pp.isCounseled()
                 );
+                item.setMedicationItem(medicationItem);
                 prescriptionItems.add(item);
             }
 

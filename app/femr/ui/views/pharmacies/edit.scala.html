@@ -61,7 +61,7 @@
                             <input type="text" class="hidden" name="prescriptions[@(x-1)].id" value="@prescription.getId"/>
                             <button type="button" class="fButton fOtherButton replaceBtn">R</button>
                             <div>
-                                <span>@prescription.printAmount @prescription.getName (@outputStringOrNA(prescription.getMedicationForm).toString().trim()) - @prescription.getAdministrationName </span>
+                                <span>@prescription.printAmount @prescription.getMedicationItem.getFullName - @prescription.getAdministrationName </span>
                             </div>
                             <div>
                                 <span id="prescriber">
@@ -72,7 +72,7 @@
                                 <div class="lowMedication">Not Enough Medication Remaining to Dispense!</div>
                             }
                             <div class="replacement hidden">
-
+                                https://github.com/FEMR/femr/tree/master/app/femr/common
                                 <div class="prescription-grid prescriptionHeader">
                                     <label class="prescription-field prescriptionName" for="prescription">Prescription</label>
                                     <label class="prescription-field prescriptionAdministration">Administration</label>
