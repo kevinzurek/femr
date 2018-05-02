@@ -6,6 +6,7 @@ import com.typesafe.config.ConfigFactory;
 import play.Logger;
 import java.io.*;
 import java.net.*;
+import java.util.Properties;
 
 import com.jcraft.jsch.*;
 
@@ -184,15 +185,21 @@ public final class InternetConnectionUtil {
         return true;
     }
 
-    public Boolean doSSH(){
+    public static Boolean doSSH(){
         JSch jsch = new JSch();
         String user="";
-        String host="";
-        String password="";
-
+        String host=""; //IP of EC2 server
+       // String password="";
+        System.out.println("Starting Jsch for reverse ssh tunnel home");
         try{
+            System.out.println("Setting SSH configurations");
             Session session=jsch.getSession(user, host, 22);
-            session.setPassword(password);
+            Properties properties = new Properties();
+            properties.setProperty("StrictHostKeyChecking", "no");// :D
+            properties.setProperty("PreferredAuthentications", "publickey");
+            //session.setPassword(password);
+            session.setConfig(properties);
+            jsch.addIdentity("/home/kevin/.ssh/jsch");
 
 //            JFileChooser chooser = new JFileChooser();
 ////            chooser.setDialogTitle("Choose your known_hosts(ex. ~/.ssh/known_hosts)");
@@ -204,6 +211,7 @@ public final class InternetConnectionUtil {
 //                        chooser.getSelectedFile().getAbsolutePath()+".");
 //                jsch.setKnownHosts(chooser.getSelectedFile().getAbsolutePath());
 //            }
+            /*
             jsch.setKnownHosts("");
             HostKeyRepository hkr=jsch.getHostKeyRepository();
             HostKey[] hks=hkr.getHostKey();
@@ -218,6 +226,7 @@ public final class InternetConnectionUtil {
                 System.out.println("");
             }
             session.setConfig("server_host_key", hks[hks.length-1].getType());
+            */
 //            System.exit(1);
             //UNSAFE, PROBABLY FIND A WORKAOUND
 //            JSch.setConfig("StrictHostKeyChecking", "no");
@@ -259,7 +268,7 @@ public final class InternetConnectionUtil {
                 readByte = commandOutput.read();
             }
 
-            session.disconnect();
+            //session.disconnect();
             System.out.println(outputBuffer.toString());
             System.out.println("nofail");
         } catch(JSchException e) {
