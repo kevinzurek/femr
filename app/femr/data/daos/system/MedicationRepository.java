@@ -16,8 +16,11 @@ import femr.data.models.mysql.concepts.ConceptMedicationForm;
 import femr.data.models.mysql.concepts.ConceptMedicationUnit;
 import femr.util.stringhelpers.StringUtils;
 import play.Logger;
+import sun.swing.BakedArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MedicationRepository implements IMedicationRepository {
 
@@ -292,6 +295,73 @@ public class MedicationRepository implements IMedicationRepository {
         }
 
         return medication;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IMedication retrieveConceptMedicationByNameFormAndGenerics(String name, String form, Map<Integer, List<String>> generics) {
+
+        if (StringUtils.isNullOrWhiteSpace(name) || StringUtils.isNullOrWhiteSpace(form) || generics == null || generics.isEmpty())
+            return null;
+
+        ExpressionList<ConceptMedication> conceptMedicationExpressionList = QueryProvider.getConceptMedicationQuery()
+                .where()
+                .eq("name", name)
+                .eq("conceptMedicationForm.name", form);
+
+        // Start by just getting the medications based on name and form name instead of writing a query to include
+        // the generics
+        List<? extends IMedication> conceptMedications;
+        try {
+            conceptMedications = conceptMedicationExpressionList.findList();
+
+            if (conceptMedications == null || conceptMedications.size() == 0)
+                return null;
+        } catch (Exception ex) {
+
+            Logger.error("MedicationRepository-retrieveConceptMedicationByNameFormAndGenerics", ex.getMessage(), ex);
+            throw ex;
+        }
+
+
+        IMedication foundConceptMedication = null;
+        // Now verify the provided generics match the generics inside the medication
+        for (IMedication conceptMedication : conceptMedications) {
+            if (compareGenerics(conceptMedication.getMedicationGenericStrengths(), generics))
+                foundConceptMedication = conceptMedication;
+        }
+
+        return foundConceptMedication;
+    }
+
+    /**
+     * Compares an existing medication's generic strengths to a proposed set to see if they match
+     *
+     * @param medicationGenericStrengths list of the medication's generics, not null
+     * @param proposedGenerics generics to check, not null
+     * @return true if match, false otherwise
+     */
+    private boolean compareGenerics(List<IMedicationGenericStrength> medicationGenericStrengths, Map<Integer, List<String>> proposedGenerics) {
+
+        if (medicationGenericStrengths.size() != proposedGenerics.size()) {
+            // If the number of generic ingredients don't match it's false by default
+            return false;
+        } else {
+            //When a match is found, log the id of the provided generic with the generic inside the medication
+            Map<Integer, Integer> matchedGenerics;
+
+            for (Map.Entry<Integer, List<String>> entry : proposedGenerics.entrySet()) {
+                for (IMedicationGenericStrength medicationGenericStrength : medicationGenericStrengths) {
+                    String proposedGenericName = entry.getValue().get(0);
+                    String proposedGenericValue = entry.getValue().get(1);
+                    String proposedGenericUnit = entry.getValue().get(2);
+                    if (entry.getValue().get(0).equals(medicationGenericStrength.getMedicationGeneric().getName()) &&
+                            entry.getValue().)
+                }
+            }
+        }
     }
 
     /**

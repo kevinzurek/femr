@@ -42,6 +42,7 @@ public class MedicationDatabaseSeeder {
     private final IRepository<IConceptMedicationUnit> conceptMedicationUnitRepository;
     private final IRepository<IConceptMedicationForm> conceptMedicationFormRepository;
     private final IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository;
+    private final IMedicationRepository medicationRepository;
 
     @Inject
     public MedicationDatabaseSeeder(IRepository<IMedication> conceptMedicationRepository,
@@ -50,7 +51,8 @@ public class MedicationDatabaseSeeder {
                                     IRepository<IConceptMedicationUnit> conceptMedicationUnitRepository,
                                     IRepository<IConceptMedicationForm> conceptMedicationFormRepository,
                                     //this needs to be removed
-                                    IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository) {
+                                    IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository,
+                                    IMedicationRepository medicationRepository) {
 
         this.conceptMedicationRepository = conceptMedicationRepository;
         this.conceptMedicationGenericRepository = conceptMedicationGenericRepository;
@@ -58,6 +60,7 @@ public class MedicationDatabaseSeeder {
         this.conceptMedicationUnitRepository = conceptMedicationUnitRepository;
         this.conceptMedicationFormRepository = conceptMedicationFormRepository;
         this.conceptPrescriptionAdministrationRepository = conceptPrescriptionAdministrationRepository;
+        this.medicationRepository = medicationRepository;
 
         this.seed();
     }
@@ -802,7 +805,8 @@ public class MedicationDatabaseSeeder {
 
         ConceptMedicationGenericStrength conceptMedicationGenericStrength = null;
 
-        if (conceptMedicationGenericStrengths != null && !containConceptGenericStrength(conceptMedicationGenericStrengths, conceptMedicationGenericMap.get(genericName), conceptMedicationUnitMap.get(genericUnit), value)){
+        if (conceptMedicationGenericStrengths != null &&
+                !containConceptGenericStrength(conceptMedicationGenericStrengths, conceptMedicationGenericMap.get(genericName), conceptMedicationUnitMap.get(genericUnit), value)){
 
             conceptMedicationGenericStrength = new ConceptMedicationGenericStrength();
             conceptMedicationGenericStrength.setMedicationGeneric(Ebean.getReference(ConceptMedicationGeneric.class, conceptMedicationGenericMap.get(genericName)));
