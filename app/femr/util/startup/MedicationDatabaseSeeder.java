@@ -18,6 +18,7 @@
 */
 package femr.util.startup;
 
+import femr.data.daos.core.IMedicationRepository;
 import io.ebean.Ebean;
 import com.google.inject.Inject;
 import femr.data.daos.IRepository;
@@ -1215,7 +1216,11 @@ public class MedicationDatabaseSeeder {
      * @param form form of the new medication, may be null
      * @return a new ConceptMedication or null if errors or null if the concept medication already exists
      */
-    private ConceptMedication addConceptMedication(List<? extends IMedication> conceptMedications, Map<String, Integer> conceptMedicationFormMap, List<IMedicationGenericStrength> conceptMedicationGenericStrengths, String brandName, String form){
+    private ConceptMedication addConceptMedication(List<? extends IMedication> conceptMedications,
+                                                   Map<String, Integer> conceptMedicationFormMap,
+                                                   List<IMedicationGenericStrength> conceptMedicationGenericStrengths,
+                                                   String brandName,
+                                                   String form){
 
         if (conceptMedications == null || conceptMedicationFormMap == null || conceptMedicationGenericStrengths == null){
 
@@ -1230,7 +1235,17 @@ public class MedicationDatabaseSeeder {
             List<IMedicationGenericStrength> medicationGenericStrengths = medication.getMedicationGenericStrengths();
             Collections.sort(medicationGenericStrengths, (o1, o2) -> ((Integer)o1.getId()).compareTo(o2.getId()));
 
-            if (medicationGenericStrengths.equals(conceptMedicationGenericStrengths) && medication.getName().equals(brandName) && medication.getConceptMedicationForm() != null && medication.getConceptMedicationForm().getName().equals(form)){
+            String medicationName = medication.getName();
+            String medicationBrandName = brandName;
+            if (medicationGenericStrengths.equals(conceptMedicationGenericStrengths) &&
+                    medication.getName().equals(brandName) &&
+                    medication.getConceptMedicationForm() != null &&
+                    medication.getConceptMedicationForm().getName().equals(form)){
+                return null;
+            } else if (medication.getName().equals("") && !brandName.equals("")) {
+                // Everything is the same except the name, just update the name of the concept medication in the dictionary
+                medication.setName(brandName);
+                conceptMedicationRepository.update(medication);
                 return null;
             }
         }
