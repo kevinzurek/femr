@@ -1,9 +1,6 @@
 package functional;
 
-import com.google.inject.Inject;
-
 //import jdk.nashorn.internal.ir.annotations.Immutable;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +12,8 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
-
 import play.Application;
-import play.Environment;
 import play.inject.guice.GuiceApplicationBuilder;
 
 import java.sql.Connection;
@@ -77,7 +70,24 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class InventoryTest/* extends FluentTest*/{
-        @Inject Application application;
+        //@Inject Application application;
+
+
+    // Override application.conf settings with Guice builder
+    // Tests look for conf/application.conf by default and this will
+    // override anything there
+    Application application = new GuiceApplicationBuilder()
+                //.configure("db.default.driver", "com.mysql.jdbc.Driver")
+                .configure("db.default.driver", "org.h2.Driver")
+                .configure("db.default.username", "testing")
+                //.configure("db.default.url", "jdbc:mysql://localhost/femr_test?characterEncoding=UTF-8")
+                .configure("db.default.url", "jdbc:h2:mem:femr_test")
+                .configure("db.default.password", "testing")
+                .in(Mode.TEST)
+                .build();
+
+
+
         private static Boolean setupIsDone = false;
         private static Boolean sequentialTestHasFailed = false;
         private static Boolean lastTestIsDone = false;
@@ -103,10 +113,13 @@ public class InventoryTest/* extends FluentTest*/{
 
         @Before
         public void setup() {
+
+
+
             if(!setupIsDone){
 //                Class.forName(jdbcDriver);
                 try {
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=terminalbatterycar");
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=test");
                     Statement s = conn.createStatement();
                     s.executeUpdate("CREATE DATABASE IF NOT EXISTS femr_test");
                 }
