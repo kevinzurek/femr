@@ -18,7 +18,6 @@
 */
 package femr.util.startup;
 
-import femr.data.daos.core.IMedicationRepository;
 import io.ebean.Ebean;
 import com.google.inject.Inject;
 import femr.data.daos.IRepository;
@@ -42,7 +41,6 @@ public class MedicationDatabaseSeeder {
     private final IRepository<IConceptMedicationUnit> conceptMedicationUnitRepository;
     private final IRepository<IConceptMedicationForm> conceptMedicationFormRepository;
     private final IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository;
-    private final IMedicationRepository medicationRepository;
 
     @Inject
     public MedicationDatabaseSeeder(IRepository<IMedication> conceptMedicationRepository,
@@ -51,8 +49,7 @@ public class MedicationDatabaseSeeder {
                                     IRepository<IConceptMedicationUnit> conceptMedicationUnitRepository,
                                     IRepository<IConceptMedicationForm> conceptMedicationFormRepository,
                                     //this needs to be removed
-                                    IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository,
-                                    IMedicationRepository medicationRepository) {
+                                    IRepository<IConceptPrescriptionAdministration> conceptPrescriptionAdministrationRepository) {
 
         this.conceptMedicationRepository = conceptMedicationRepository;
         this.conceptMedicationGenericRepository = conceptMedicationGenericRepository;
@@ -60,7 +57,6 @@ public class MedicationDatabaseSeeder {
         this.conceptMedicationUnitRepository = conceptMedicationUnitRepository;
         this.conceptMedicationFormRepository = conceptMedicationFormRepository;
         this.conceptPrescriptionAdministrationRepository = conceptPrescriptionAdministrationRepository;
-        this.medicationRepository = medicationRepository;
 
         this.seed();
     }
