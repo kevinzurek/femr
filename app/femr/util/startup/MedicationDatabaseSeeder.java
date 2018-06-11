@@ -1222,7 +1222,7 @@ public class MedicationDatabaseSeeder {
                                                    String brandName,
                                                    String form){
 
-        if (conceptMedicationFormMap == null || conceptMedicationGenericStrengths == null){
+        if (conceptMedications == null || conceptMedicationFormMap == null || conceptMedicationGenericStrengths == null){
 
             return null;
         }
@@ -1234,7 +1234,7 @@ public class MedicationDatabaseSeeder {
         for (IMedication medication : conceptMedications){
             List<IMedicationGenericStrength> medicationGenericStrengths = medication.getMedicationGenericStrengths();
             Collections.sort(medicationGenericStrengths, (o1, o2) -> ((Integer)o1.getId()).compareTo(o2.getId()));
-            
+
             if (medicationGenericStrengths.equals(conceptMedicationGenericStrengths) &&
                     medication.getName().equals(brandName) &&
                     medication.getConceptMedicationForm() != null &&
