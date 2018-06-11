@@ -301,9 +301,9 @@ public class MedicationRepository implements IMedicationRepository {
      * {@inheritDoc}
      */
     @Override
-    public IMedication retrieveConceptMedicationByNameFormAndGenerics(String name, String form, Map<Integer, List<String>> generics) {
+    public List<? extends IMedication> retrieveConceptMedicationsByNameAndForm(String name, String form) {
 
-        if (StringUtils.isNullOrWhiteSpace(name) || StringUtils.isNullOrWhiteSpace(form) || generics == null || generics.isEmpty())
+        if (StringUtils.isNullOrWhiteSpace(name) || StringUtils.isNullOrWhiteSpace(form))
             return null;
 
         ExpressionList<ConceptMedication> conceptMedicationExpressionList = QueryProvider.getConceptMedicationQuery()
@@ -312,7 +312,7 @@ public class MedicationRepository implements IMedicationRepository {
                 .eq("conceptMedicationForm.name", form);
 
         // Start by just getting the medications based on name and form name instead of writing a query to include
-        // the generics
+        // the generic ingredients
         List<? extends IMedication> conceptMedications;
         try {
             conceptMedications = conceptMedicationExpressionList.findList();
@@ -321,19 +321,11 @@ public class MedicationRepository implements IMedicationRepository {
                 return null;
         } catch (Exception ex) {
 
-            Logger.error("MedicationRepository-retrieveConceptMedicationByNameFormAndGenerics", ex.getMessage(), ex);
+            Logger.error("MedicationRepository-retrieveConceptMedicationByNameAndForm", ex.getMessage(), ex);
             throw ex;
         }
 
-
-        IMedication foundConceptMedication = null;
-        // Now verify the provided generics match the generics inside the medication
-        for (IMedication conceptMedication : conceptMedications) {
-            if (compareGenerics(conceptMedication.getMedicationGenericStrengths(), generics))
-                foundConceptMedication = conceptMedication;
-        }
-
-        return foundConceptMedication;
+        return conceptMedications;
     }
 
     /**
@@ -342,7 +334,7 @@ public class MedicationRepository implements IMedicationRepository {
      * @param medicationGenericStrengths list of the medication's generics, not null
      * @param proposedGenerics generics to check, not null
      * @return true if match, false otherwise
-     */
+
     private boolean compareGenerics(List<IMedicationGenericStrength> medicationGenericStrengths, Map<Integer, List<String>> proposedGenerics) {
 
         if (medicationGenericStrengths.size() != proposedGenerics.size()) {
@@ -362,7 +354,7 @@ public class MedicationRepository implements IMedicationRepository {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * {@inheritDoc}

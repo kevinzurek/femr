@@ -1226,7 +1226,7 @@ public class MedicationDatabaseSeeder {
                                                    String brandName,
                                                    String form){
 
-        if (conceptMedications == null || conceptMedicationFormMap == null || conceptMedicationGenericStrengths == null){
+        if (conceptMedicationFormMap == null || conceptMedicationGenericStrengths == null){
 
             return null;
         }
@@ -1246,7 +1246,7 @@ public class MedicationDatabaseSeeder {
                     medication.getConceptMedicationForm() != null &&
                     medication.getConceptMedicationForm().getName().equals(form)){
                 return null;
-            } else if (medication.getName().equals("") && !brandName.equals("")) {
+            } else if (femr.util.stringhelpers.StringUtils.isNullOrWhiteSpace(medication.getName())&& femr.util.stringhelpers.StringUtils.isNotNullOrWhiteSpace(brandName)) {
                 // Everything is the same except the name, just update the name of the concept medication in the dictionary
                 medication.setName(brandName);
                 conceptMedicationRepository.update(medication);
