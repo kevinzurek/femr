@@ -3,7 +3,6 @@ package femr.data.daos.core;
 import femr.data.models.core.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ajsaclayan on 6/27/16.
@@ -97,17 +96,6 @@ public interface IMedicationRepository {
     IMedication retrieveConceptMedicationById(int id);
 
     /**
-     * Retrieves a Concept Medication based on name and form. A list will be returned if
-     * a concept medication exists with the same name and form but different ingredients.
-     *
-     * @param name brand name of the concept medication, not null
-     * @param form form of the medication (e.g. caps, tabs, etc..), not null
-     *
-     * @return the concept medication or null if none is found, may be null
-     */
-    List<? extends IMedication> retrieveConceptMedicationsByNameAndForm(String name, String form);
-
-    /**
      * Returns all available concept medication units. i.e. "g/dL", "milligram", "ounces", etc..
      * @return List of concept medication units from db
      */
@@ -128,6 +116,5 @@ public interface IMedicationRepository {
      *  @return the new or updated medicationInventory
      **/
     IMedicationInventory saveMedicationInventory(IMedicationInventory medicationInventory);
-
 }
 
