@@ -1234,9 +1234,7 @@ public class MedicationDatabaseSeeder {
         for (IMedication medication : conceptMedications){
             List<IMedicationGenericStrength> medicationGenericStrengths = medication.getMedicationGenericStrengths();
             Collections.sort(medicationGenericStrengths, (o1, o2) -> ((Integer)o1.getId()).compareTo(o2.getId()));
-
-            String medicationName = medication.getName();
-            String medicationBrandName = brandName;
+            
             if (medicationGenericStrengths.equals(conceptMedicationGenericStrengths) &&
                     medication.getName().equals(brandName) &&
                     medication.getConceptMedicationForm() != null &&
